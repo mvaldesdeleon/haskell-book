@@ -3,14 +3,19 @@
 Determine if each of the following are combinators or not.
 
 1. **𝜆𝑥.𝑥𝑥𝑥**
+
    *Yes*. The body only contains *𝑥*, which is also in the head.
 2. **𝜆𝑥𝑦.𝑧𝑥**
+
    *No*. *𝑧* is a free variable.
 3. **𝜆𝑥𝑦𝑧.𝑥𝑦(𝑧𝑥)**
+
    *Yes*. All three variables contained in the body are also in the head.
 4. **𝜆𝑥𝑦𝑧.𝑥𝑦(𝑧𝑥𝑦)**
+
    *Yes*. All three variables contained in the body are also in the head.
 5. **𝜆𝑥𝑦.𝑥𝑦(𝑧𝑥𝑦)**
+
    *No*. *𝑧* is a free variable.
 
 # Normal form or diverge?
