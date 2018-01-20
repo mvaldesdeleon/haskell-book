@@ -4,44 +4,53 @@ Determine if each of the following are combinators or not.
 
 1. **𝜆𝑥.𝑥𝑥𝑥**
 
-   *Yes*. The body only contains *𝑥*, which is also in the head.
+   **Yes**. The body only contains *𝑥*, which is also in the head.
+
 2. **𝜆𝑥𝑦.𝑧𝑥**
 
-   *No*. *𝑧* is a free variable.
+   **No**. *𝑧* is a free variable.
+
 3. **𝜆𝑥𝑦𝑧.𝑥𝑦(𝑧𝑥)**
 
-   *Yes*. All three variables contained in the body are also in the head.
+   **Yes**. All three variables contained in the body are also in the head.
+
 4. **𝜆𝑥𝑦𝑧.𝑥𝑦(𝑧𝑥𝑦)**
 
-   *Yes*. All three variables contained in the body are also in the head.
+   **Yes**. All three variables contained in the body are also in the head.
+
 5. **𝜆𝑥𝑦.𝑥𝑦(𝑧𝑥𝑦)**
 
-   *No*. *𝑧* is a free variable.
+   **No**. *𝑧* is a free variable.
 
 # Normal form or diverge?
 
 Determine if each of the following can be reduced to a normal form or if they diverge.
 
 1. **𝜆𝑥.𝑥𝑥𝑥**
-   Is already in normal form.
+
+   Is already in **normal form**.
+
 2. **(𝜆𝑧.𝑧𝑧)(𝜆𝑦.𝑦𝑦)**
-   Diverges, as it is the *omega* term (alpha-equivalent to *(𝜆𝑥.𝑥𝑥)(𝜆𝑥.𝑥𝑥)**).
+
+   **Diverges**, as it is the *omega* term (alpha-equivalent to *(𝜆𝑥.𝑥𝑥)(𝜆𝑥.𝑥𝑥)**).
+
 3. **(𝜆𝑥.𝑥𝑥𝑥)𝑧**
-   Can be reduced to *𝑧𝑧𝑧*.
+
+   **Can be reduced** to *𝑧𝑧𝑧*.
 
 # Beta reduce
 
 Evaluate (that is, beta reduce) each of the following expressions to normal form. We strongly recommend writing out the steps on paper with a pencil or pen.
 
 1. **(𝜆𝑎𝑏𝑐.𝑐𝑏𝑎)𝑧𝑧(𝜆𝑤𝑣.𝑤)**
-   ```
-   (𝜆𝑎𝑏𝑐.𝑐𝑏𝑎)𝑧𝑧(𝜆𝑤𝑣.𝑤)
-   (𝜆𝑏𝑐.𝑐𝑏𝑧)𝑧(𝜆𝑤𝑣.𝑤)
-   (𝜆𝑐.𝑐𝑧𝑧)(𝜆𝑤𝑣.𝑤)
-   (𝜆𝑤𝑣.𝑤)𝑧𝑧
-   (𝜆𝑣.𝑧)𝑧
+   
+   (𝜆𝑎𝑏𝑐.𝑐𝑏𝑎)𝑧𝑧(𝜆𝑤𝑣.𝑤)  
+   (𝜆𝑏𝑐.𝑐𝑏𝑧)𝑧(𝜆𝑤𝑣.𝑤)  
+   (𝜆𝑐.𝑐𝑧𝑧)(𝜆𝑤𝑣.𝑤)  
+   (𝜆𝑤𝑣.𝑤)𝑧𝑧  
+   (𝜆𝑣.𝑧)𝑧  
    𝑧
-   ```
+
 2. **(𝜆𝑥.𝜆𝑦.𝑥𝑦𝑦)(𝜆𝑎.𝑎)𝑏**
    ```
    (𝜆𝑥.𝜆𝑦.𝑥𝑦𝑦)(𝜆𝑎.𝑎)𝑏
