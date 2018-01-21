@@ -55,10 +55,14 @@ The following code samples are broken and won’t compile. The first two are as 
 
    `let double x = x * 2`
 
-3. ```x = 7
+3. ```
+   x = 7
     y = 10
-   f = x + y```
+   f = x + y
+   ```
 
-   ```x = 7
+   ```
+   x = 7
    y = 10
-   f = x + y```
+   f = x + y
+   ```
