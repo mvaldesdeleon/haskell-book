@@ -73,18 +73,114 @@ Now for some exercises. First, determine in your head what the following express
 
 1. `let x = 5 in x`
    
-   5
+   `5`
 
 2. `let x = 5 in x * x`
    
-   25
+   `25`
 
 3. `let x = 5; y = 6 in x * y`
    
-   30
+   `30`
 
 4. `let x = 3; y = 1000 in x + 3`
    
-   6
+   `6`
 
 _Rewrite with where clauses_, see [where.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch02/where.hs)
+
+# Chapter Exercises
+
+## Parenthesization
+
+Given what we know about the precedence of (*), (+), and (^), how can we parenthesize the following expressions more explicitly with- out changing their results? Put together an answer you think is correct, then test in the GHCi REPL.
+
+1. `2 + 2 * 3 - 1`
+
+   `2 + (2 * 3) - 1`
+
+2. `(^) 10 $ 1 + 1`
+
+   `(10^) $ (1 + 1)`
+
+3. `2 ^ 2 * 4 ^ 5 + 1`
+   
+   `(2 ^ 2) * (4 ^ 5) + 1`
+
+## Equivalent expressions
+
+Which of the following pairs of expressions will return the same result when evaluated? Try to reason them out in your head by reading the code and then enter them into the REPL to check your work:
+
+1. `1 + 1`
+   `2`
+
+   `1 + 1` will evaluate to `2`.
+
+2. `10 ^ 2`
+   `10 + 9 * 10`
+
+   Both expressions will evaluate to `100`.
+
+3. `400 - 37`
+   `(-) 37 400`
+
+   The first expression will evaluate to `363`, whereas the second one will evaluate to `-363`
+
+4. `100 'div' 3`
+   `100 / 3`
+
+   The first expression will perform an integer division, whereas the second one will perform a fractional division. I expect them to evaluate to `33` and `33.3...` respectively.
+
+5. `2 * 5 + 18`
+   `2 * (5 + 18)`
+
+   In the first expression, the multiplication will be evaluated first. In the second, it will be the addition. The results will not be the same.
+
+## More fun with functions
+
+Here is a bit of code as it might be entered into a source file. Remem- ber that when you write code in a source file, the order is unimpor- tant, but when writing code directly into the REPL the order does matter. Given that, look at this code and rewrite it such that it could be evaluated in the REPL (remember: you’ll need let when entering it directly into the REPL). Be sure to enter your code into the REPL to make sure it evaluates correctly.
+
+```
+let z = 7
+
+let y = z + 8 -- 15
+
+let x = y ^ 2 -- 225
+
+let waxOn = x * 5 -- 1125
+```
+
+1. Now you have a value called waxOn in your REPL. What do you
+think will happen if you enter:
+
+   In all cases, the expression will be evaluated by applying the functions to their arguments.
+
+   `10 + waxOn`
+
+   `1135`
+
+   `(+10) waxOn`
+
+   `1135`
+
+   `(-) 15 waxOn`
+
+   `-1110`
+
+   `(-) waxOn 15`
+
+   `1110`
+
+2. Earlier we looked at a function called triple. While your REPL has waxOn in session, re-enter the triple function at the prompt:
+
+   `let triple x = x * 3`
+
+3. Now, what will happen if we enter this at our GHCi prompt. Try to reason out what you think will happen first, considering what role waxOn is playing in this function call. Then enter it, see what does happen, and check your understanding:
+
+   `triple waxOn`
+
+   `waxOn` is just an integer. `triple` will be applied to it, producing another integer as the result:
+
+   `3375`
+
+For remaining exercises, see [where.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch02/where.hs)
