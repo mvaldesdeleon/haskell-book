@@ -27,4 +27,4 @@ Given the following datatype, answer the following questions:
 
 5. Enter all of the above — datatype (including the deriving Show bit), your corrected type signature, and the corrected function into a source file. Load it and run it in GHCi to make sure you got it right.
 
-See [moodswing.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch04/moodswing.hs)
+   See [moodswing.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch04/moodswing.hs)
