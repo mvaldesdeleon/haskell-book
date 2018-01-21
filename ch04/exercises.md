@@ -73,19 +73,19 @@ allAwesome = [awesome, alsoAwesome]
 
 2. What are the results of the following expressions?
 
-   a) length [1, 2, 3, 4, 5]
+   a) `length [1, 2, 3, 4, 5]`
 
    `5`
 
-   b) length [(1, 2), (2, 3), (3, 4)]
+   b) `length [(1, 2), (2, 3), (3, 4)]`
 
    `4`
 
-   c) length allAwesome
+   c) `length allAwesome`
 
    `2`
 
-   d) length (concat allAwesome)
+   d) `length (concat allAwesome)`
 
    `5`
 
