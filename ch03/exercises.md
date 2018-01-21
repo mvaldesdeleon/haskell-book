@@ -35,4 +35,4 @@
       where r = d / 2
    ```
 
-   Yes. Now `d` is in scope when declaring `r`, and `r` is in scope when declaring `area`
+   Yes. Now `d` is in scope when declaring `r`, and `r` is in scope when declaring `area`.
