@@ -66,3 +66,25 @@ The following code samples are broken and won’t compile. The first two are as 
    y = 10
    f = x + y
    ```
+
+# A Head Code
+
+Now for some exercises. First, determine in your head what the following expressions will return, then validate in the REPL:
+
+1. `let x = 5 in x`
+   
+   5
+
+2. `let x = 5 in x * x`
+   
+   25
+
+3. `let x = 5; y = 6 in x * y`
+   
+   30
+
+4. `let x = 3; y = 1000 in x + 3`
+   
+   6
+
+_Rewrite with where clauses_, see [where.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch02/where.hs)
