@@ -36,3 +36,23 @@
    ```
 
    Yes. Now `d` is in scope when declaring `r`, and `r` is in scope when declaring `area`.
+
+# Syntax Errors
+
+Read the syntax of the following functions and decide whether it will compile. Test them in your REPL and try to fix the syntax errors where they occur.
+
+1. `++ [1, 2, 3] [4, 5, 6]`
+
+   Syntax error, parenthesis are required when using the `++` operator in prefix position. Fix:
+
+   `(++) [1, 2, 3] [4, 5, 6]`
+
+2. `'<3' ++ ' Haskell'`
+
+   Syntax error, single quotes used instead of double quotes. Fix:
+
+   `"<3" ++ " Haskell"`
+
+3. `concat ["<3", " Haskell"]`
+   
+   No syntax errors, evaluates to `"<3 Haskell"`.
