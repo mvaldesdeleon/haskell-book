@@ -141,7 +141,8 @@ Read the syntax of the following functions and decide whether it will compile. T
 
 1. Given the list-manipulation functions mentioned in this chap- ter, write functions that take the following inputs and return the expected outputs. Do them directly in your REPL and use the take and drop functions you’ve already seen.
 
-   a) ```
+   a) 
+      ```
       -- Given
       "Curry is awesome"
       -- Return
@@ -150,7 +151,8 @@ Read the syntax of the following functions and decide whether it will compile. T
 
       `"Curry is awesome" ++ "!"`
 
-   b) ```
+   b) 
+      ```
       -- Given
       "Curry is awesome!"
       -- Return
@@ -159,7 +161,8 @@ Read the syntax of the following functions and decide whether it will compile. T
 
       `"Curry is awesome!" !! 4`
 
-   c) ```
+   c) 
+      ```
       -- Given
       "Curry is awesome!"
       -- Return
