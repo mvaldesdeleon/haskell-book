@@ -160,10 +160,10 @@ allAwesome = [awesome, alsoAwesome]
 
 10. Fill in the definition of the following function, using `fst` and `snd`:
 
-   ```
-   f :: (a, b) -> (c, d) -> ((b, d), (a, c))
-   f l r = ((snd l, snd r), (fst l, fst r))
-   ```
+    ```
+    f :: (a, b) -> (c, d) -> ((b, d), (a, c))
+    f l r = ((snd l, snd r), (fst l, fst r))
+    ```
 
 ## Correcting syntax
 
