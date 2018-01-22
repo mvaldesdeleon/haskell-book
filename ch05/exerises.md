@@ -5,9 +5,13 @@ Below you’ll find a list of several standard functions we’ve talked about pr
 1. Functions:
 
    a) `not`
+
    b) `length`
+
    c) `concat`
+
    d) `head`
+   
    e) `(<)`
    
 2. Type signatures:
