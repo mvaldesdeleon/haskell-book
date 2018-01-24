@@ -42,27 +42,27 @@ Given a function and its type, tell us what type results from applying some or a
 
 1. If the type of `f` is `a -> a -> a -> a`, and the type of `𝑥` is `Char` then the type of `f x` is:
 
-   a) `Char -> Char -> Char`
-   b) `x -> x -> x -> x`
-   c) `a -> a -> a`
+   a) `Char -> Char -> Char`  
+   b) `x -> x -> x -> x`  
+   c) `a -> a -> a`  
    d) `a -> a -> a -> Char`
 
    `Char -> Char -> Char`
 
 2. If the type of `g` is `a -> b -> c -> b`, then the type of `g 0 'c' "woot"` is:
 
-   a) `String`
-   b) `Char -> String`
-   c) `Int`
+   a) `String`  
+   b) `Char -> String`  
+   c) `Int`  
    d) `Char`
 
    `Char`
 
 3. If the type of `h` is `(Num a, Num b) => a -> b -> b`, then the type of `h 1.0 2` is:
 
-   a) `Double`
-   b) `Integer`
-   c) `Integral b => b`
+   a) `Double`  
+   b) `Integer`  
+   c) `Integral b => b`  
    d) `Num b => b`
 
    `Num b => b`
@@ -71,9 +71,9 @@ Given a function and its type, tell us what type results from applying some or a
 
 4. If the type of `h` is `(Num a, Num b) => a -> b -> b`, then the type of `h 1 (5.5 :: Double)` is:
 
-   a) `Integer`
-   b) `Fractional b => b`
-   c) `Double`
+   a) `Integer`  
+   b) `Fractional b => b`  
+   c) `Double`  
    d) `Num b => b`
 
    `Double`
@@ -81,10 +81,10 @@ Given a function and its type, tell us what type results from applying some or a
 5. If the type of `jackal` is `(Ord a, Eq b) => a -> b -> a`, then the type of
      `jackal "keyboard" "has the word jackal in it"` is:
 
-   a) `[Char]`
-   b) `Eq b => b`
-   c) `b -> [Char]`
-   d) `b`
+   a) `[Char]`  
+   b) `Eq b => b`  
+   c) `b -> [Char]`  
+   d) `b`  
    e) `Eq b => b -> [Char]`
 
    `[Char]`
@@ -92,10 +92,10 @@ Given a function and its type, tell us what type results from applying some or a
 6. If the type of `jackal` is `(Ord a, Eq b) => a -> b -> a`, then the type of
      `jackal "keyboard"` is:
 
-   a) `b`
-   b) `Eq b => b`
-   c) `[Char]`
-   d) `b -> [Char]`
+   a) `b`  
+   b) `Eq b => b`  
+   c) `[Char]`  
+   d) `b -> [Char]`  
    e) `Eq b => b -> [Char]`
 
    `Eq b => b -> [Char]`
@@ -103,11 +103,11 @@ Given a function and its type, tell us what type results from applying some or a
 7. If the type of `kessel` is `(Ord a, Num b) => a -> b -> a`, then the type of
 `kessel 1 2` is:
 
-   a) `Integer`
-   b) `Int`
-   c) `a`
-   d) `(Num a, Ord a) => a`
-   e) `Ord a => a`
+   a) `Integer`  
+   b) `Int`  
+   c) `a`  
+   d) `(Num a, Ord a) => a`  
+   e) `Ord a => a`  
    f) `Num a => a`
 
    `(Num a, Ord a) => a`
@@ -115,11 +115,11 @@ Given a function and its type, tell us what type results from applying some or a
 8. If the type of `kessel` is `(Ord a, Num b) => a -> b -> a`, then the type of
 `kessel 1 (2 :: Integer)` is:
 
-   a) `(Num a, Ord a) => a`
-   b) `Int`
-   c) `a`
-   d) `Num a => a`
-   e) `Ord a => a`
+   a) `(Num a, Ord a) => a`  
+   b) `Int`  
+   c) `a`  
+   d) `Num a => a`  
+   e) `Ord a => a`  
    f) `Integer`
 
    `(Num a, Ord a) => a`
@@ -127,10 +127,10 @@ Given a function and its type, tell us what type results from applying some or a
 9. If the type of `kessel` is (`Ord a, Num b) => a -> b -> a`, then the type of
 `kessel (1 :: Integer) 2` is:
 
-   a) `Num a => a`
-   b) `Ord a => a`
-   c) `Integer`
-   d) `(Num a, Ord a) => a`
+   a) `Num a => a`  
+   b) `Ord a => a`  
+   c) `Integer`  
+   d) `(Num a, Ord a) => a`  
    e) `a`
 
    `Integer`
@@ -167,6 +167,7 @@ All you can really do with a parametrically polymorphic value is pass or not pas
 Look at these pairs of functions. One function is unapplied, so the compiler will infer maximally polymorphic type. The second function has been applied to a value, so the inferred type signature may have become concrete, or at least less polymorphic. Figure out how the type would change and why, make a note of what you think the new inferred type would be and then check your work in GHCi.
 
 1. 
+
    ```
    -- Type signature of general function
    (++) :: [a] -> [a] -> [a]
@@ -179,6 +180,7 @@ Look at these pairs of functions. One function is unapplied, so the compiler wil
    `(++) :: [Char] -> [Char] -> [Char]`
 
 2. 
+
    ```
    -- General function
    (*) :: Num a => a -> a -> a
@@ -190,6 +192,7 @@ Look at these pairs of functions. One function is unapplied, so the compiler wil
    `(*) :: Fractional a => a -> a -> a`
 
 3. 
+   
    ```
    take :: Int -> [a] -> [a]
 
@@ -199,6 +202,7 @@ Look at these pairs of functions. One function is unapplied, so the compiler wil
    `take :: Int -> [Char] -> [Char]`
 
 4. 
+
    ```
    (>) :: Ord a => a -> a -> Bool
 
@@ -208,6 +212,7 @@ Look at these pairs of functions. One function is unapplied, so the compiler wil
    `(>) :: Int -> Int -> Bool`
 
 5. 
+   
    ```
    (<) :: Ord a => a -> a -> Bool
 
@@ -222,36 +227,36 @@ Look at these pairs of functions. One function is unapplied, so the compiler wil
 
 1. A value of type `[a]` is
 
-   a) a list of alphabetic characters
-   b) a list of lists
-   c) a list whose elements are all of some type `𝑎`
+   a) a list of alphabetic characters  
+   b) a list of lists  
+   c) a list whose elements are all of some type `𝑎`  
    d) a list whose elements are all of different types
 
    C. In particular, it _could_ be A and B, but it does not _have_ to.
 
 2. A function of type `[[a]] -> [a]` could
 
-   a) take a list of strings as an argument
-   b) transform a character into a string
-   c) transform a string in to a list of strings
+   a) take a list of strings as an argument  
+   b) transform a character into a string  
+   c) transform a string in to a list of strings  
    d) take two arguments
 
    A.
 
 3. A function of type `[a] -> Int -> a`
 
-   a) takes one argument
-   b) returns one element of type `𝑎` from a list
-   c) must return an `Int` value
+   a) takes one argument  
+   b) returns one element of type `𝑎` from a list  
+   c) must return an `Int` value  
    d) is completely fictional
 
    B.
 
 4. A function of type `(a, b) -> a`
 
-   a) takes a list argument and returns a `Char` value
-   b) has zero arguments
-   c) takes a tuple argument and returns the first value
+   a) takes a list argument and returns a `Char` value  
+   b) has zero arguments  
+   c) takes a tuple argument and returns the first value  
    d) requires that `𝑎` and `𝑏` be of different types
 
    C.
@@ -339,7 +344,8 @@ For the following functions, determine the type of the specified value. We sugge
 
 For each set of expressions, figure out which expression, if any, causes the compiler to squawk at you (n.b. we do not mean literal squawking) and why. Fix it if you can.
 
-1.
+1. 
+
    ```
    bigNum = (^) 5 $ 10
    wahoo = bigNum $ 10
@@ -352,7 +358,8 @@ For each set of expressions, figure out which expression, if any, causes the com
    wahoo = bigNum $ 10
    ```
 
-2.
+2. 
+
    ```
    x = print
    y = print "woohoo!"
@@ -361,7 +368,7 @@ For each set of expressions, figure out which expression, if any, causes the com
 
    Compiles. When `z` is evaluated it will print `"hello world"`.
 
-3.
+3. 
 
    ```
    a = (+)
@@ -379,7 +386,8 @@ For each set of expressions, figure out which expression, if any, causes the com
    d = c 200
    ```
 
-4.
+4. 
+   
    ```
    a = 12 + b
    b = 10000 * c
@@ -403,24 +411,24 @@ _(Example exercise 1 has been omitted)__
 
    `f :: zed -> Zed -> Blah`
 
-   `zed`: Fully polymorphic type variable
-   `Zed`: Concrete type constructor.
+   `zed`: Fully polymorphic type variable  
+   `Zed`: Concrete type constructor.  
    `Blah`: Concrete type constructor.
 
 3. Categorize each component of the type signature
 
    `f :: Enum b => a -> b -> C`
 
-   `a`: Fully polymorphic type variable
-   `b`: Constraiend polymorphic type.
+   `a`: Fully polymorphic type variable  
+   `b`: Constraiend polymorphic type.  
    `C`: Concrete type constructor.
 
 4. Categorize each component of the type signature
 
    `f :: f -> g -> C`
 
-   `f`: Fully polymorphic type variable
-   `g`: Fully polymorphic type variable.
+   `f`: Fully polymorphic type variable  
+   `g`: Fully polymorphic type variable.  
    `C`: Concrete type constructor.
 
 ## Write a type signature
@@ -537,7 +545,7 @@ See [sing.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch05/sin
 
 ## Type-Kwon-Do
 
-1.
+1. 
 
    ```
    f :: Int -> String
@@ -552,7 +560,7 @@ See [sing.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch05/sin
 
    `h i = g $ f i`
 
-2. 
+2.  
 
    ```
    data A
@@ -571,7 +579,7 @@ See [sing.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch05/sin
 
    `e a = w $ q a`
 
-3.
+3. 
 
    ```
    data X
@@ -590,7 +598,7 @@ See [sing.hs](https://github.com/mvaldesdeleon/haskell-book/blob/master/ch05/sin
 
    `xform (x, y) = (xz x, yz y)`
 
-4.
+4. 
 
    ```
    munge :: (x -> y) -> (y -> (w, z)) -> x -> w
