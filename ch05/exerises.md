@@ -134,3 +134,84 @@ Given a function and its type, tell us what type results from applying some or a
    e) `a`
 
    `Integer`
+
+# Parametricity
+
+All you can really do with a parametrically polymorphic value is pass or not pass it to some other expression. Prove that to yourself with these small demonstrations.
+
+1. Given the type `a -> a`, which is the type for `id`, attempt to make a function that is not bottom and terminates successfully that does something other than returning the same value. This is impossible, but you should try it anyway.
+
+   Welp.
+
+2. We can get a more comfortable appreciation of parametricity by looking at `a -> a -> a`. This hypothetical function `a -> a -> a` has two–and only two–implementations. Write both possible versions of `a -> a -> a`. After doing so, try to violate the constraints of parametrically polymorphic values we outlined above.
+
+   ```
+   f :: a -> a -> a
+   f x y = x
+   
+   g :: a -> a -> a
+   g x y = y
+   ```
+
+3. Implement `a -> b -> b`. How many implementations can it have? Does the behavior change when the types of `𝑎` and `𝑏` change?
+
+   ```
+   f :: a -> b -> b
+   f x y = y
+   ```
+
+   This is the only implementation, and the behaviour does not change when the types of `a` and `b` change.
+
+# Apply Yourself
+
+Look at these pairs of functions. One function is unapplied, so the compiler will infer maximally polymorphic type. The second function has been applied to a value, so the inferred type signature may have become concrete, or at least less polymorphic. Figure out how the type would change and why, make a note of what you think the new inferred type would be and then check your work in GHCi.
+
+1. 
+   ```
+   -- Type signature of general function
+   (++) :: [a] -> [a] -> [a]
+
+   -- How might that change when we apply
+   -- it to the following value?
+   myConcat x = x ++ " yo"
+   ```
+
+   `(++) :: [Char] -> [Char] -> [Char]`
+
+2. 
+   ```
+   -- General function
+   (*) :: Num a => a -> a -> a
+
+   -- Applied to a value
+   myMult x = (x / 3) * 5
+   ```
+
+   `(*) :: Fractional a => a -> a -> a`
+
+3. 
+   ```
+   take :: Int -> [a] -> [a]
+
+   myTake x = take x "hey you"
+   ```
+
+   `take :: Int -> [Char] -> [Char]`
+
+4. 
+   ```
+   (>) :: Ord a => a -> a -> Bool
+
+   myCom x = x > (length [1..10])
+   ```
+
+   `(>) :: Int -> Int -> Bool`
+
+5. 
+   ```
+   (<) :: Ord a => a -> a -> Bool
+
+   myAlph x = x < 'z'
+   ```
+
+   `(<) :: Char -> Char -> Bool`
