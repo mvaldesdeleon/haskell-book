@@ -405,7 +405,7 @@ For each set of expressions, figure out which expression, if any, causes the com
 
 You will be shown a type declaration, and you should categorize each type. The choices are a fully polymorphic type variable, constrained polymorphic type variable, or concrete type constructor.
 
-_(Example exercise 1 has been omitted)__
+_(Example exercise 1 has been omitted)_
 
 2. Categorize each component of the type signature as described in the previous example.
 
