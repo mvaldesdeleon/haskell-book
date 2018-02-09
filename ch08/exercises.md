@@ -187,7 +187,23 @@ dividedBy num denom = go num denom 0
 ```
 
 ```
-TBD
+data DividedResult =
+    Result Integer
+    | DividedByZero
+    deriving Show
+
+dividedBy' :: Integral a => a -> a -> DividedResult
+dividedBy' num denom = go num denom 0
+    where go n d count
+           | d == 0 = DividedByZero
+           | d < 0 = case dividedBy' n (-d) of
+                DividedByZero -> DividedByZero
+                Result r -> Result (-r)
+           | n < 0 = case dividedBy' (-n) d of
+                DividedByZero -> DividedByZero
+                Result r -> Result (-r)
+           | n < d = Result count
+           | otherwise = go (n - d) d (count + 1)
 ```
 
 ## McCarthy 91 function
