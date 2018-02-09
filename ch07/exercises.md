@@ -147,44 +147,236 @@ oneIsOne = dodgy 1
 oneIsTwo = (flip dodgy) 2
 ```
 
-Example not included.
+_(Example exercise 1 has been omitted)_
 
 2. `dodgy 1 1`
 
-`11`
+   `11`
 
 3. `dodgy 2 2`
 
-`22`
+   `22`
 
 4. `dodgy 1 2`
 
-`21`
+   `21`
 
 5. `dodgy 2 1`
 
-`12`
+   `12`
 
 6. `oneIsOne 1`
 
-`11`
+   `11`
 
 7. `oneIsOne 2`
 
-`21`
+   `21`
 
 8. `oneIsTwo 1`
 
-`21`
+   `21`
 
 9. `oneIsTwo 2`
 
-`22`
+   `22`
 
 10. `oneIsOne 3`
 
-`31`
+   `31`
 
 11. `oneIsTwo 3`
 
-`23`
+   `23`
+
+# Guard Duty
+
+1. It is probably clear to you why you wouldn’t put an `otherwise` in your top-most guard, but try it with `avgGrade` anyway and see what happens. It’ll be more clear if you rewrite it as an actual otherwise match: `| otherwise = 'F'`. What happens now if you pass a `90` as an argument? `75`? `60`?
+
+   `avgGrade` will now always return `F`.
+
+2. What happens if you take `avgGrade` as it is written and reorder the guards? Does it still typecheck and work the same? Try moving `| y >= 0.7 = 'C'` and passing it the argument `90`, which should be an ‘A.’ Does it return an ‘A’?
+
+   The function will styll typecheck, but the behaviour might not be the same, as guards are evaluated in order. If you move the suggested guard up, it will match before `B` or `A` get a chance to match. If you move it down, `D`, `E` and/or `F` might get match before `C`.
+
+3. The following function returns
+
+   ``
+   pal xs
+    | xs == reverse xs = True
+    | otherwise = False
+   ```
+
+   a) `xs` written backwards when it’s `True`  
+   b) `True` when `xs` is a palindrome  
+   c) `False` when `xs` is a palindrome  
+   d) `False` when `xs` is reversed
+
+   `B`.
+
+4. What types of arguments can pal take?
+
+   `xs :: Eq a => [a]`
+
+5. What is the type of the function pal?
+
+   `pal :: Eq a => [a] -> Bool`
+
+6. The following function returns
+
+   ```
+   numbers x
+    | x < 0 = -1
+    | x == 0 = 0
+    | x > 0 =1
+   ```
+
+   a) the value of its argument plus or minus 1  
+   b) the negation of its argument  
+   c) an indication of whether its argument is a positive or negative number or zero  
+   d) binary machine language
+
+   `C`.
+
+7. What types of arguments can numbers take?
+
+   `x :: (Num a, Ord a) => a`
+
+8. What is the type of the function numbers?
+
+   `number :: (Num a, Ord a, Num b) => a -> b`
+
+# Chapter Exercises
+
+## Multiple choice
+
+1. A polymorphic function
+
+   a) changes things into sheep when invoked  
+   b) has multiple arguments  
+   c) has a concrete type  
+   d) may resolve to values of different types, depending on inputs
+
+   `D`.
+
+2. Two functions named `f` and `g` have types `Char -> String` and `String -> [String]` respectively. The composed function `g . f` has the type
+
+   a) `Char -> String`   
+   b) `Char -> [String]`   
+   c) `[[String]]`   
+   d) `Char -> String -> [String]`
+
+   `B`.
+
+3. A function `f` has the type `Ord a => a -> a -> Bool` and we apply it to one numeric value. What is the type now?
+
+a) `Ord a => a -> Bool`  
+b) `Num -> Num -> Bool`  
+c) `Ord a => a -> a -> Integer`  
+d) `(Ord a, Num a) => a -> Bool`
+
+  `D`.
+
+4. A function with the type `(a -> b) -> c`
+
+   a) requires values of three different types   
+   b) is a higher-order function   
+   c) must take a tuple as its first argument   
+   d) has its parameters in alphabetical order
+
+   `B`.
+
+5. Given the following definition of `f`, what is the type of `f True`?
+
+   ```
+   f :: a -> a
+   f x = x
+   ```
+
+   a) `f True :: Bool`  
+   b) `f True :: String`  
+   c) `f True :: Bool -> Bool`  
+   d) `f True :: a`
+
+   `A`.
+
+## Let’s write code
+
+1. The following function returns the tens digit of an integral argument.
+
+   ```
+   tensDigit :: Integral a => a -> a
+   tensDigit x = d
+      where xLast = x `div` 10
+            d = xLast `mod` 10
+   ```
+
+   a) First, rewrite it using `divMod`.
+
+   ```
+   tensDigit :: Integral a => a -> a
+   tensDigit x = d
+         where (xLast, _) = x `divMod` 10
+               (_, d) = xLast `divMod` 10
+   ```
+
+   b) Does the `divMod` version have the same type as the original version?
+
+   Why wouldn't it?
+
+   c) Next, let’s change it so that we’re getting the hundreds digit instead. You could start it like this (though that may not be the only possibility):
+
+   ```
+   hunsD x = d2
+      where d = undefined ...
+   ```
+
+   ```
+   hunsDigit :: Integral a => a -> a
+   hunsDigit x = d
+         where (xLast, _) = x `divMod` 100
+               (_, d) = xLast `divMod` 10
+   ```
+
+2. Implement the function of the type `a -> a -> Bool -> a` once each using a case expression and once with a guard.
+
+   ```
+   foldBool :: a -> a -> Bool -> a
+   foldBool = error "Error: Need to implement foldBool!"
+   ```
+
+   The result is semantically similar to if-then-else expressions but syntactically quite different.
+
+   ```
+   foldBool :: a -> a -> Bool -> a
+   foldBool x y b = case b of
+                         True -> x
+                         False -> y
+   ```
+
+   ```
+   foldBool :: a -> a -> Bool -> a
+   foldBool x y b
+    | b = x
+    | otherwise = y
+   ```
+
+3. Fill in the definition. Note that the first argument to our function is also a function which can be applied to values. Your second argument is a tuple, which can be used for pattern matching:
+
+   ```
+   g :: (a -> b) -> (a, c) -> (b, c)
+   g f (a, c) = (f a, c)
+   ```
+
+_(Example exercise 4 has been omitted)_
+
+5. Next, write a pointfree version of `roundTrip`. (n.b., this refers to the function definition, not to its application in main)
+
+   ```
+   roundTrip :: (Show a, Read a) => a -> a
+   roundTrip = read . show
+   ```
+
+6. Your task now is to change the type of `roundTrip` to `(Show a, Read b) => a -> b`. How might we tell GHC which instance of Read to dispatch against the `String` now? Make the expression `print (roundTrip 4)` work. You will only need the _has the type_ syntax of `::` and parentheses for scoping.
+
+   `print ((roundTrip 4) :: Int)`
