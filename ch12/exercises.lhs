@@ -170,3 +170,121 @@ This may take some time.
 >   case ma of
 >       Just a -> (a :) <$> flipMaybe ms
 >       Nothing -> Nothing
+
+Small library for Either
+
+Write each of the following functions. If more than one possible unique function exists for the type, use common sense to determine what it should do.
+
+1. Try to eventually arrive at a solution that uses foldr, even if earlier versions don’t use foldr.
+
+> lefts' :: [Either a b] -> [a]
+> lefts' = foldr f []
+>   where
+>       f e as =
+>           case e of
+>               Left a -> (a : as)
+>               Right _ -> as
+
+2. Same as the last one. Use foldr eventually.
+
+> rights' :: [Either a b] -> [b]
+> rights' = foldr f []
+>   where
+>       f e bs =
+>           case e of
+>               Left _ -> bs
+>               Right b -> b : bs
+
+3.
+
+> partitionEithers' :: [Either a b] -> ([a], [b])
+> partitionEithers' = foldr f ([], [])
+>   where
+>       f e (as, bs) =
+>           case e of
+>               Left a -> ((a : as), bs)
+>               Right b -> (as, (b : bs))
+
+4.
+
+> eitherMaybe'
+>   :: (b -> c)
+>   -> Either a b
+>   -> Maybe c
+> eitherMaybe' f e =
+>   case e of
+>       Left _ -> Nothing
+>       Right b -> Just $ f b
+
+5. This is a general catamorphism for Either values.
+
+> either' :: (a -> c) -> (b -> c) -> Either a b -> c
+> either' f g e =
+>   case e of
+>       Left a -> f a
+>       Right b -> g b
+
+6. Same as before, but use the either' function you just wrote.
+
+> eitherMaybe'' :: (b -> c) -> Either a b -> Maybe c
+> eitherMaybe'' f = either' (const Nothing) (Just . f)
+
+Write your own iterate and unfoldr
+
+1. Write the function myIterate using direct recursion. Compare the behavior with the built-in iterate to gauge correctness. Do not look at the source or any examples of iterate so that you are forced to do this yourself.
+
+> myIterate :: (a -> a) -> a -> [a]
+> myIterate f a = a : iterate f (f a)
+
+Write the function myUnfoldr using direct recursion. Compare with the built-in unfoldr to check your implementation. Again, don’t look at implementations of unfoldr so that you figure it out yourself.
+
+> myUnfoldr
+>   :: (b -> Maybe (a, b))
+>   -> b
+>   -> [a]
+> myUnfoldr f b =
+>   case f b of
+>       Just (a, b) -> a : myUnfoldr f b
+>       Nothing -> []
+
+3. Rewrite myIterate into betterIterate using myUnfoldr. A hint — we used unfoldr to produce the same results as iterate earlier. Do this with different functions and see if you can abstract the structure out.
+
+> betterIterate :: (a -> a) -> a -> [a]
+> betterIterate f a = myUnfoldr next a
+>   where
+>       next a = Just (a, f a)
+
+Finally something other than a list!
+
+Given the BinaryTree from last chapter, complete the following exercises. Here’s that datatype again:
+
+> data BinaryTree a
+>     = Leaf
+>     | Node (BinaryTree a) a (BinaryTree a)
+>     deriving (Eq, Ord, Show)
+
+1. Write unfold for BinaryTree.
+
+> unfold
+>   :: (a -> Maybe (a,b,a))
+>   -> a
+>   -> BinaryTree b
+> unfold f a =
+>   case f a of
+>       Just (la, b, ra) -> Node (unfold f la) b (unfold f ra)
+>       Nothing -> Leaf
+
+2. Make a tree builder.
+
+Using the unfold function you’ve made for BinaryTree, write the following function:
+
+> treeBuild
+>   :: Integer
+>   -> BinaryTree Integer
+> treeBuild n = unfold (f n) 0
+>   where
+>       f :: Integer -> Integer -> Maybe (Integer, Integer, Integer)
+>       f n i
+>           | n > i = Just (i + 1, i, i + 1)
+>           | otherwise = Nothing
+
