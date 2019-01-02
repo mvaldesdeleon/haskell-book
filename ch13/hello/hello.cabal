@@ -1,0 +1,27 @@
+name:                hello
+version:             0.1.0.0
+synopsis:            Simple project template from stack
+description:         Please see README.md
+homepage:            https://github.com/bitemyapp/hello#readme
+license:             BSD3
+license-file:        LICENSE
+author:              Your Name Here
+maintainer:          example@email.com
+copyright:           2016, Your Name Here
+category:            Web
+build-type:          Simple
+cabal-version:       >=1.10
+
+library
+  hs-source-dirs:      src
+  exposed-modules:     Hello
+                     , DogsRule
+  build-depends:       base >= 4.7 && < 5
+  default-language:    Haskell2010
+
+executable hello
+  hs-source-dirs:      exe
+  main-is:             Main.hs
+  default-language:    Haskell2010
+  build-depends:       base >= 4.7 && < 5
+                     , hello
