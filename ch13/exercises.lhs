@@ -70,3 +70,16 @@ Filesystem
 c) Which import did forever come from?
 
 Control.Monad
+
+
+Modifying code
+
+1. Ciphers: Open your Ciphers module and modify it so that the Caesar and Vigenère ciphers work with user input.
+
+Nah. They are good as they are: pure. To work with user input you can just use them in a snippet such as:
+
+> vig :: IO ()
+> vig = do
+>   key <- getLine
+>   plain <- getLine
+>   print $ vigenere key plain
