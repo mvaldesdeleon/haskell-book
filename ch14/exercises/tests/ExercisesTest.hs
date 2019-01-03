@@ -138,7 +138,7 @@ main =
         property prop_dollarStringInt
     describe "dot" $ do
       it "composes functions (String -> Int, Int -> String)" $
-        property prop_dollarStringInt
+        property prop_dotStringIntString
     describe "foldr (:)" $ do
       it "equals flip (++)" $ property prop_foldrAppendString
     describe "foldr (++) []" $ do
