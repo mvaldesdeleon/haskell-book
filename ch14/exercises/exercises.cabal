@@ -16,7 +16,8 @@ extra-source-files:  README.md
 library
   hs-source-dirs:       src
   exposed-modules:      Exercises
-                      , WordNumber
+  other-modules:        WordNumber
+                      , Cipher
   ghc-options:          -Wall -fwarn-tabs
   default-language:     Haskell2010
   build-depends:        base >= 4.7 && < 5

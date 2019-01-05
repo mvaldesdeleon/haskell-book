@@ -1,7 +1,9 @@
 module ExercisesTest where
 
-import           Exercises       (Fool (..), Pool (..), capitalizeWord, half,
-                                  reverse, sort)
+import           Data.Char       (chr)
+import           Exercises       (Fool (..), Pool (..), caesar, capitalizeWord,
+                                  half, reverse, sort, unCaesar, unVigenere,
+                                  vigenere)
 import           Test.Hspec
 import           Test.QuickCheck
 
@@ -23,31 +25,31 @@ listOrdered xs = snd $ foldr go (Nothing, True) xs
     go y (Nothing, t)      = (Just y, t)
     go y (Just x, t)       = (Just y, x >= y)
 
-prop_plusAssociativeInt :: (Int, Int, Int) -> Bool
-prop_plusAssociativeInt (x, y, z) = x + (y + z) == (x + y) + z
+prop_plusAssociativeInt :: Int -> Int -> Int -> Bool
+prop_plusAssociativeInt x y z = x + (y + z) == (x + y) + z
 
-prop_plusCommutativeInt :: (Int, Int) -> Bool
-prop_plusCommutativeInt (x, y) = x + y == y + x
+prop_plusCommutativeInt :: Int -> Int -> Bool
+prop_plusCommutativeInt x y = x + y == y + x
 
-prop_timesAssociativeInt :: (Int, Int, Int) -> Bool
-prop_timesAssociativeInt (x, y, z) = x * (y * z) == (x * y) * z
+prop_timesAssociativeInt :: Int -> Int -> Int -> Bool
+prop_timesAssociativeInt x y z = x * (y * z) == (x * y) * z
 
-prop_timesCommutativeInt :: (Int, Int) -> Bool
-prop_timesCommutativeInt (x, y) = x * y == y * x
+prop_timesCommutativeInt :: Int -> Int -> Bool
+prop_timesCommutativeInt x y = x * y == y * x
 
-prop_quotRemInt :: (Int, NonZero Int) -> Bool
-prop_quotRemInt (x, NonZero y) = (quot x y) * y + (rem x y) == x
+prop_quotRemInt :: Int -> NonZero Int -> Bool
+prop_quotRemInt x (NonZero y) = (quot x y) * y + (rem x y) == x
 
-prop_divModInt :: (Int, NonZero Int) -> Bool
-prop_divModInt (x, NonZero y) = (div x y) * y + (mod x y) == x
-
--- False
-prop_powerAssociativeInt :: (Int, Int, Int) -> Bool
-prop_powerAssociativeInt (x, y, z) = x ^ (y ^ z) == (x ^ y) ^ z
+prop_divModInt :: Int -> NonZero Int -> Bool
+prop_divModInt x (NonZero y) = (div x y) * y + (mod x y) == x
 
 -- False
-prop_powerCommutativeInt :: (Int, Int) -> Bool
-prop_powerCommutativeInt (x, y) = x ^ y == y ^ x
+prop_powerAssociativeInt :: Int -> Int -> Int -> Bool
+prop_powerAssociativeInt x y z = x ^ (y ^ z) == (x ^ y) ^ z
+
+-- False
+prop_powerCommutativeInt :: Int -> Int -> Bool
+prop_powerCommutativeInt x y = x ^ y == y ^ x
 
 prop_reverseIdentityInt :: [Int] -> Bool
 prop_reverseIdentityInt as = reverseIdentity as == as
@@ -58,14 +60,14 @@ prop_reverseIdentityString as = reverseIdentity as == as
 reverseIdentity :: [a] -> [a]
 reverseIdentity = reverse . reverse
 
-prop_dollarStringInt :: (Fun String Int, String) -> Bool
-prop_dollarStringInt (Fun _ f, s) = f s == (f $ s)
+prop_dollarStringInt :: Fun String Int -> String -> Bool
+prop_dollarStringInt (Fn f) s = f s == (f $ s)
 
-prop_dotStringIntString :: (Fun Int String, Fun String Int, String) -> Bool
-prop_dotStringIntString (Fun _ f, Fun _ g, s) = (f . g $ s) == f (g s)
+prop_dotStringIntString :: Fun Int String -> Fun String Int -> String -> Bool
+prop_dotStringIntString (Fn f) (Fn g) s = (f . g $ s) == f (g s)
 
-prop_foldrAppendString :: (String, String) -> Bool
-prop_foldrAppendString (a, b) = foldr (:) a b == (flip (++)) a b
+prop_foldrAppendString :: String -> String -> Bool
+prop_foldrAppendString a b = foldr (:) a b == (flip (++)) a b
 
 prop_foldrConcatString :: [String] -> Bool
 prop_foldrConcatString as = foldr (++) [] as == concat as
@@ -104,8 +106,53 @@ prop_sortIdempotentString x =
 genFool :: Gen Fool
 genFool = oneof [return Frue, return Fulse]
 
+instance Arbitrary Fool where
+  arbitrary = genFool
+
 genPool :: Gen Pool
 genPool = frequency [(1, return Prue), (2, return Pulse)]
+
+instance Arbitrary Pool where
+  arbitrary = genPool
+
+newtype TextChar = TextChar
+  { getTextChar :: Char
+  } deriving (Eq, Show)
+
+genTextChar :: Gen TextChar
+genTextChar = do
+  n <- choose (32, 125)
+  return $ TextChar $ chr n
+
+instance Arbitrary TextChar where
+  arbitrary = genTextChar
+
+newtype AlphaChar = AlphaChar
+  { getAlphaChar :: Char
+  } deriving (Eq, Show)
+
+genAlphaChar :: Gen AlphaChar
+genAlphaChar = do
+  n <- oneof [choose (65, 90), choose (97, 122)]
+  return $ AlphaChar $ chr n
+
+instance Arbitrary AlphaChar where
+  arbitrary = genAlphaChar
+
+prop_caesarIdentity :: Int -> [TextChar] -> Bool
+prop_caesarIdentity i tcs = s == (unCaesar i . caesar i $ s)
+  where
+    s = getTextChar <$> tcs
+
+-- Fails! Even after restricting to alpha characters, due to the way spaces are given special treatment,
+-- if a character encodes to a space, then it won't decode correctly.
+-- The fix would require us to restrict the input to either lowercase or uppercase and adjust the rotation range
+-- so that no spaces can be produced.
+prop_vigenereIdentity :: NonEmptyList AlphaChar -> [AlphaChar] -> Bool
+prop_vigenereIdentity (NonEmpty ack) acs = s == (unVigenere k . vigenere k $ s)
+  where
+    s = getAlphaChar <$> acs
+    k = getAlphaChar <$> ack
 
 main :: IO ()
 main =
@@ -151,3 +198,7 @@ main =
     --   it "equals identity for non-zero Float" $ property prop_squareIdentity
     describe "capitalizeWord" $ do
       it "is idempotent" $ property prop_capitalizeWordIdempotent
+    describe "casesar/unCaesar" $ do
+      it "composes into identity" $ property prop_caesarIdentity
+    -- describe "vigenere/unVigenere" $ do
+    --   it "composes into identity" $ property prop_vigenereIdentity
