@@ -61,28 +61,33 @@ genPuzzleAndIncorrectGuess = do
   c <- genIncorrectGuess p
   return (p, c)
 
+prop_fillInCharacterCorrect :: (Puzzle, Char) -> Bool
 prop_fillInCharacterCorrect (p, c) = all (== Just c) filled && c `elem` guessed
   where
     (Puzzle word before _) = p
     (Puzzle _ after guessed) = fillInCharacter p c
     filled = map (after !!) $ elemIndices c word
 
+prop_fillInCharacterIncorrect :: (Puzzle, Char) -> Bool
 prop_fillInCharacterIncorrect (p, c) = before == after && c `elem` guessed
   where
     (Puzzle _ before _) = p
     (Puzzle _ after guessed) = fillInCharacter p c
 
+prop_handleGuessNew :: Puzzle -> Char -> Property
 prop_handleGuessNew p c =
   monadicIO $ do
     np <- run $ handleGuess p c
     return (np /= p)
 
+prop_handleGuessOld :: Puzzle -> Char -> Property
 prop_handleGuessOld p c =
   monadicIO $ do
     np <- run $ handleGuess p c
     nnp <- run $ handleGuess np c
     return (np == nnp)
 
+prop_wrongGuesses :: (Puzzle, [Char]) -> Bool
 prop_wrongGuesses (p, cs) = wrongGuesses fp == length cs
   where
     fp = foldr (flip fillInCharacter) p cs
@@ -90,9 +95,8 @@ prop_wrongGuesses (p, cs) = wrongGuesses fp == length cs
 main :: IO ()
 main =
   hspec $ do
-    describe "randomWords'" $
-     -- Slow. Un-x as needed.
-     do xit "generates random words in the IO monad" $ property prop_randomWords
+    describe "randomWords'" $ do
+      it "generates random words in the IO monad" $ property prop_randomWords
     describe "freshPuzzle" $ do
       it
         "initializes the Puzzle with one guess slot per word character, and no guesses" $
