@@ -139,8 +139,13 @@ genAlphaChar = do
 instance Arbitrary AlphaChar where
   arbitrary = genAlphaChar
 
-prop_caesarIdentity :: Int -> [TextChar] -> Bool
-prop_caesarIdentity i tcs = s == (unCaesar i . caesar i $ s)
+prop_caesarIdentityA :: Int -> [TextChar] -> Bool
+prop_caesarIdentityA i tcs = s == (unCaesar i . caesar i $ s)
+  where
+    s = getTextChar <$> tcs
+
+prop_caesarIdentityB :: Int -> [TextChar] -> Bool
+prop_caesarIdentityB i tcs = s == (caesar i . unCaesar i $ s)
   where
     s = getTextChar <$> tcs
 
@@ -199,6 +204,7 @@ main =
     describe "capitalizeWord" $ do
       it "is idempotent" $ property prop_capitalizeWordIdempotent
     describe "casesar/unCaesar" $ do
-      it "composes into identity" $ property prop_caesarIdentity
+      it "composes into identity A" $ property prop_caesarIdentityA
+      it "composes into identity B" $ property prop_caesarIdentityB
     -- describe "vigenere/unVigenere" $ do
     --   it "composes into identity" $ property prop_vigenereIdentity
