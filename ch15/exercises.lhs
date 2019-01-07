@@ -19,10 +19,7 @@ Write the Monoid instance for our Maybe type renamed to Optional.
 >
 > instance Monoid a => Monoid (Optional a) where
 >   mempty = Nada
->   mappend (Only a) (Only b) = Only $ mappend a b
->   mappend (Only a) Nada = Only a
->   mappend Nada (Only b) = Only b
->   mappend Nada Nada = Nada
+>   mappend = (<>)
 
 Madness
 
