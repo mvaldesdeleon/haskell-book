@@ -91,3 +91,33 @@ It may not always need to go in the same place, so don’t get complacent.
 >     in fmap (*3) changed
 
 
+Exercise: Possibly
+
+Write a Functor instance for a datatype identical to Maybe. We’ll use our own datatype because Maybe already has a Functor instance and we cannot make a duplicate one.
+
+> data Possibly a =
+>   LolNope
+>   | Yeppers a
+>   deriving (Eq, Show)
+>
+> instance Functor Possibly where
+>   fmap f (Yeppers a) = Yeppers (f a)
+>   fmap _ LolNope = LolNope
+
+
+Short Exercise
+
+1. Write a Functor instance for a datatype identical to Either. We’ll use our own datatype because Either has a Functor instance.
+
+> data Sum a b =
+>   First a
+>   | Second b
+>   deriving (Eq, Show)
+>
+> instance Functor (Sum a) where
+>   fmap _ (First a) = First a
+>   fmap f (Second b) = Second (f b)
+
+2. Why is a Functor instance that applies the function only to First, Either’s Left, impossible? We covered this earlier.
+
+Because the "a" in First is part of "Sum a"'s structure, and you cannot define an instance on "Sum" as it has the wrong kind (* -> * -> *, as opposed to * -> *)
