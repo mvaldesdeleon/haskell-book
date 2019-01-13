@@ -1,6 +1,7 @@
 > module Chapter17 where
 >
 > import Data.List (elemIndex)
+> import Control.Applicative (liftA3)
 
 Exercises: Lookups
 
@@ -102,3 +103,39 @@ Given the function and values provided, use (<$>) from Functor, (<*>) and pure f
 > fix2 =
 >   (,,,) <$> Just 90 <*> Just 10  <*> Just "Tierness" <*> pure [1, 2, 3]
 
+
+Chapter Exercises
+
+Given a type that has an instance of Applicative, specialize the types of the methods.
+
+1. []
+
+pure  :: a -> [a]
+(<*>) :: [(a -> b)] -> [a] -> [b]
+
+2. IO
+
+pure  :: a -> IO a
+(<*>) :: IO (a -> b) -> IO a -> IO b
+
+3. (,) a
+
+pure  :: a -> (l, a)
+(<*>) :: (l, (a -> b)) -> (l, a) -> (l, b)
+
+4. (->) e
+
+pure  :: a -> (e -> a)
+(<*>) :: (e -> (a -> b)) -> (e -> a) -> (e -> b)
+
+
+Combinations
+
+> stops :: String
+> stops = "pbtdkg"
+>
+> vowels :: String
+> vowels = "aeiou"
+>
+> combos :: [a] -> [b] -> [c] -> [(a, b, c)]
+> combos = liftA3 (,,)
