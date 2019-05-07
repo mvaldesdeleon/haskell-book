@@ -1,6 +1,6 @@
 > {-# LANGUAGE LambdaCase #-}
 >
-> module Chapter19 where
+> module Chapter20 where
 >
 > import Data.Monoid
 
