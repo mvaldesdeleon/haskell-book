@@ -1,3 +1,5 @@
+{-# LANGUAGE FlexibleContexts #-}
+
 module Exercises
   ( Identity
   , Constant
@@ -7,6 +9,8 @@ module Exercises
   , Pair
   , Big
   , Bigger
+  , S
+  , Tree
   ) where
 
 import           Test.QuickCheck
@@ -174,30 +178,55 @@ instance (Arbitrary a, Arbitrary b) => Arbitrary (Bigger a b) where
 
 instance (Eq a, Eq b) => EqProp (Bigger a b) where
   (=-=) = eq
---data S n a = S (n a) a
---    deriving (Eq, Show)
---instance ( Functor n
---    , Arbitrary (n a)
---    , Arbitrary a )
---    => Arbitrary (S n a) where
---        arbitrary =
---            S <$> arbitrary <*> arbitrary
---instance ( Applicative n
---    , Testable (n Property)
---    , Eq a
---    , Eq (n a) , EqProp a)
---    => EqProp (S n a) where
---        (=-=) = eq
---instance Traversable n
---    => Traversable (S n) where
---        traverse = undefined
---data Tree a = Empty
---    | Leaf a
---    | Node (Tree a) a (Tree a)
---    deriving (Eq, Show)
---instance Functor Tree where
---    fmap = undefined
---instance Foldable Tree where
---    foldMap = undefined
---instance Traversable Tree where
---    traverse = undefined
+
+data S n a =
+  S (n a) a
+  deriving (Eq, Show)
+
+instance Functor n => Functor (S n) where
+  fmap f (S fa a) = S (f <$> fa) (f a)
+
+instance Foldable n => Foldable (S n) where
+  foldMap f (S fa a) = foldMap f fa <> f a
+
+instance Traversable n => Traversable (S n) where
+  traverse f (S fa a) = S <$> traverse f fa <*> f a
+
+instance (Functor n, Arbitrary (n a), Arbitrary a) => Arbitrary (S n a) where
+  arbitrary = S <$> arbitrary <*> arbitrary
+
+instance (Applicative n, Testable (n Property), Eq a, Eq (n a), EqProp a) =>
+         EqProp (S n a) where
+  (=-=) = eq
+
+data Tree a
+  = Empty
+  | Leaf a
+  | Node (Tree a) a (Tree a)
+  deriving (Eq, Show)
+
+instance Functor Tree where
+  fmap _ Empty          = Empty
+  fmap f (Leaf a)       = Leaf (f a)
+  fmap f (Node lt a rt) = Node (fmap f lt) (f a) (fmap f rt)
+
+instance Foldable Tree where
+  foldMap _ Empty          = mempty
+  foldMap f (Leaf a)       = f a
+  foldMap f (Node lt a rt) = foldMap f lt <> f a <> foldMap f rt
+
+instance Traversable Tree where
+  traverse _ Empty          = pure Empty
+  traverse f (Leaf a)       = Leaf <$> f a
+  traverse f (Node lt a rt) = Node <$> traverse f lt <*> f a <*> traverse f rt
+
+instance Arbitrary a => Arbitrary (Tree a) where
+  arbitrary =
+    frequency
+      [ (1, return Empty)
+      , (2, Leaf <$> arbitrary)
+      , (3, Node <$> arbitrary <*> arbitrary <*> arbitrary)
+      ]
+
+instance Eq a => EqProp (Tree a) where
+  (=-=) = eq

@@ -6,7 +6,7 @@ import           Test.QuickCheck.Checkers
 import           Test.QuickCheck.Classes
 
 import           Exercises                (Big, Bigger, Constant, Identity,
-                                           List, Optional, Pair, Three)
+                                           List, Optional, Pair, S, Three, Tree)
 
 main :: IO ()
 main =
@@ -109,3 +109,23 @@ main =
         property
           (quickBatch $
            traversable (undefined :: Bigger String (Int, Float, String)))
+    describe "S" $ do
+      it "Functor" $
+        property (quickBatch $ functor (undefined :: S [] (Int, Float, String)))
+      it "Foldable" $
+        property
+          (quickBatch $
+           foldable (undefined :: S [] (Int, Float, String, Int, String)))
+      it "Traversable" $
+        property
+          (quickBatch $ traversable (undefined :: S [] (Int, Float, String)))
+    describe "Tree" $ do
+      it "Functor" $
+        property (quickBatch $ functor (undefined :: Tree (Int, Float, String)))
+      it "Foldable" $
+        property
+          (quickBatch $
+           foldable (undefined :: Tree (Int, Float, String, Int, String)))
+      it "Traversable" $
+        property
+          (quickBatch $ traversable (undefined :: Tree (Int, Float, String)))
