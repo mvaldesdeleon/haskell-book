@@ -4,11 +4,9 @@
 >
 > import Control.Applicative
 > import Data.Maybe
->
 
 Short Exercise: Warming Up
 
->
 > import Data.Char
 >
 > cap :: [Char] -> [Char]
