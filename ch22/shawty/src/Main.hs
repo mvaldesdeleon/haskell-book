@@ -56,7 +56,7 @@ shortyFound tbs = TL.concat ["<a href=\"", tbs, "\">", tbs, "</a>"]
 app :: ReaderT R.Connection ScottyM ()
 app = do
   rConn <- ask
-  lift $
+  lift $ do
     get "/" $ do
       uri <- param "uri"
       let parsedUri :: Maybe URI
@@ -69,7 +69,6 @@ app = do
           resp <- liftIO (saveURI rConn shorty uri')
           html (shortyCreated resp shawty)
         Nothing -> text (shortyAintUri uri)
-  lift $
     get "/:short" $ do
       short <- param "short"
       uri <- liftIO (getURI rConn short)
