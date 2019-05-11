@@ -1,0 +1,26 @@
+	Sat May 11 22:48 2019 Time and Allocation Profiling Report  (Final)
+
+	   caf1 +RTS -hc -p -RTS
+
+	total time  =        0.40 secs   (401 ticks @ 1000 us, 1 processor)
+	total alloc = 871,346,856 bytes  (excludes profiling overheads)
+
+COST CENTRE MODULE SRC                    %time %alloc
+
+main        Main   caf1.hs:(7,1)-(13,29)   52.4    0.0
+incdInts    Main   caf1.hs:4:1-27          47.6  100.0
+
+
+                                                                            individual      inherited
+COST CENTRE  MODULE                SRC                   no.     entries  %time %alloc   %time %alloc
+
+MAIN         MAIN                  <built-in>            115          0    0.0    0.0   100.0  100.0
+ CAF         Main                  <entire-module>       229          0    0.0    0.0   100.0  100.0
+  incdInts   Main                  caf1.hs:4:1-27        232          1   47.6  100.0    47.6  100.0
+  main       Main                  caf1.hs:(7,1)-(13,29) 230          1   52.4    0.0    52.4    0.0
+ CAF         GHC.Conc.Signal       <entire-module>       209          0    0.0    0.0     0.0    0.0
+ CAF         GHC.IO.Encoding       <entire-module>       191          0    0.0    0.0     0.0    0.0
+ CAF         GHC.IO.Encoding.Iconv <entire-module>       189          0    0.0    0.0     0.0    0.0
+ CAF         GHC.IO.Handle.FD      <entire-module>       180          0    0.0    0.0     0.0    0.0
+ CAF         GHC.IO.Handle.Text    <entire-module>       178          0    0.0    0.0     0.0    0.0
+ main        Main                  caf1.hs:(7,1)-(13,29) 231          0    0.0    0.0     0.0    0.0

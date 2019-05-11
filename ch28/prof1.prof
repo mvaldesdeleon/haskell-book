@@ -1,0 +1,29 @@
+	Sat May 11 22:35 2019 Time and Allocation Profiling Report  (Final)
+
+	   prof1 +RTS -P -RTS
+
+	total time  =        0.20 secs   (204 ticks @ 1000 us, 1 processor)
+	total alloc = 792,054,816 bytes  (excludes profiling overheads)
+
+COST CENTRE MODULE SRC                     %time %alloc  ticks     bytes
+
+g           Main   prof1.hs:(9,1)-(11,14)   91.2   90.9    186 720003632
+f           Main   prof1.hs:(4,1)-(6,14)     8.8    9.1     18  72011856
+
+
+                                                                             individual      inherited
+COST CENTRE  MODULE                SRC                    no.     entries  %time %alloc   %time %alloc  ticks     bytes
+
+MAIN         MAIN                  <built-in>             115          0    0.0    0.0   100.0  100.0      0       648
+ CAF         Main                  <entire-module>        229          0    0.0    0.0   100.0  100.0      0       208
+  f          Main                  prof1.hs:(4,1)-(6,14)  232          1    8.8    9.1     8.8    9.1     18  72000264
+  g          Main                  prof1.hs:(9,1)-(11,14) 234          1   91.2   90.9    91.2   90.9    186 720000304
+  main       Main                  prof1.hs:(14,1)-(16,3) 230          1    0.0    0.0     0.0    0.0      0        40
+ CAF         GHC.Conc.Signal       <entire-module>        209          0    0.0    0.0     0.0    0.0      0       640
+ CAF         GHC.IO.Encoding       <entire-module>        191          0    0.0    0.0     0.0    0.0      0      2768
+ CAF         GHC.IO.Encoding.Iconv <entire-module>        189          0    0.0    0.0     0.0    0.0      0       200
+ CAF         GHC.IO.Handle.FD      <entire-module>        180          0    0.0    0.0     0.0    0.0      0     34704
+ CAF         GHC.IO.Handle.Text    <entire-module>        178          0    0.0    0.0     0.0    0.0      0        88
+ main        Main                  prof1.hs:(14,1)-(16,3) 231          0    0.0    0.0     0.0    0.0      0        32
+  f          Main                  prof1.hs:(4,1)-(6,14)  233          0    0.0    0.0     0.0    0.0      0     11592
+  g          Main                  prof1.hs:(9,1)-(11,14) 235          0    0.0    0.0     0.0    0.0      0      3328
