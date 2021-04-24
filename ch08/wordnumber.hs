@@ -19,7 +19,7 @@ digits :: Int -> [Int]
 digits n = go n []
     where go n digs
             | d > 0 = go d (r:digs)
-            | otherwise = (r:digs)
+            | otherwise = digs
             where d = n `div` 10
                   r = n `mod` 10
 
