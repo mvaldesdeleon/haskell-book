@@ -90,7 +90,9 @@ Note the following exercises are from source code files, not written for use dir
    f = undefined
    ```
 
-   `f (a, b, c) (d, e, f) = ((a, d), (c, f))`
+   `f (a, b, c) (d, e, f) = ((a, d), (c, f))` 
+   OR 
+   `f (a, _, c) (d, _, f) = ((a, d), (c, f))`
 
 # Case Practice
 
